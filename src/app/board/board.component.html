@@ -1,0 +1,91 @@
+<header>
+    <h1 class="title">TIC-TAC-TOE</h1>
+</header>
+
+<ng-container *ngIf="showModal">
+    <div class="modal">
+        <h2 class="title_modal">TIC-TAC-TOE</h2>
+        <h5 style="color:rgb(6, 6, 71);">Choose the name of the players:</h5>
+
+        <input type="text" 
+            #xPlayer  
+            nbInput 
+            fullWidth
+            status="success" 
+            shape="semi-round" 
+            placeholder=" 'X' Player" 
+            name="xPlayer">
+
+        <p></p>
+
+        <input type="text" 
+            #oPlayer 
+            nbInput 
+            fullWidth
+            status="info" 
+            shape="semi-round" 
+            placeholder=" 'O' Player" 
+            name="oPlayer">
+        
+        <p></p>
+        
+        <div class="horiz_divider"></div>
+        
+        <button nbButton outline status="primary" size="small" (click)="getPlayers('X','O')" >default</button>
+        <div class="vert_divider"></div>
+        <button nbButton outline status="primary" size="small" (click)="getPlayers(xPlayer.value,oPlayer.value)" >change</button>
+
+    </div>
+    <div (click)="toggle()" class="overlay"></div>
+</ng-container>
+
+
+<div class="centered">
+    <div class="left-aligned">
+        <p *ngIf="xIsNext && !isTie && !theresWinner"> {{ xVal }}'s turn! </p>
+        <p *ngIf="!xIsNext && !isTie && !theresWinner"> {{ oVal }}'s turn! </p>
+    </div>
+
+    <h5 *ngIf="winner=='X'">
+        {{ xVal }} won!
+    </h5>
+
+    <h5 *ngIf="winner=='O'">
+        {{ oVal }} won!
+    </h5>
+    
+    <h5 *ngIf="!theresWinner && isTie">
+        It's a tie!
+    </h5>
+</div>
+
+
+<main>
+    <app-square class="centering"
+        *ngFor="let val of squares; let i = index" 
+        [value]="val"
+        (click)="makeMove(i)"
+        [idx]="i"
+        [end]="isTie || theresWinner"
+        [xValue]="xVal"
+        [oValue]="oVal"
+        [highlight]="isHighlighted[i]"> 
+    </app-square>
+</main>
+
+<br>
+<footer>
+    <div class="centered">
+        <h5 style="background-color:rgb(81, 231, 194); padding: 5px;"> {{xScore}} </h5> 
+        <h5 style="padding: 5px;"> : </h5>
+        <h5 style="background-color:lightskyblue; padding: 5px;"> {{oScore}} </h5>
+        <div class="vert_divider"></div>
+        <button nbButton status="control" (click)="anotherRound()">Another round</button>
+    </div>
+    <div class="centered">
+        <button nbButton status="control" size="small" (click)="newGame()">New Game</button>
+        <div class="vert_divider"></div>
+        <button nbButton size="small" (click)="toggle()">Change names</button>
+    </div>
+</footer>
+
